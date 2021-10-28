@@ -1,0 +1,10 @@
+.markdownEditor__editor {
+  width: 100%;
+}
+
+.markdownEditor__save {
+  position: absolute;
+  right: 8px;
+  margin: 8px;
+}
+

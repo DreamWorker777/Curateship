@@ -1,0 +1,2 @@
+<?php $layout_template = (isset($settings_data['profile_template']) && !empty($settings_data['profile_template'])) ? "templates.profile.{$settings_data['profile_template']}" : 'templates.profile.default'; ?>
+@extends($layout_template)

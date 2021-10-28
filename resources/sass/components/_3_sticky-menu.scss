@@ -1,0 +1,456 @@
+:root {
+  --sticky-menu-item-height: 40px;
+  --sticky-menu-transition-duration: .3s;
+  --sticky-menu-width-desktop: 300px; // width on desktop
+}
+
+.cs-sticky-menu::before { 
+	content: '';
+	position: fixed;
+	z-index: 1;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(#000, .5);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity .4s, visibility .4s;
+}
+
+.cs-sticky-menu--open::before {
+	opacity: 1;
+	visibility: visible;
+}
+
+.cs-sticky-menu__trigger,
+.cs-sticky-menu__content {
+	position: fixed;
+	bottom: 20px;
+	right: 5%;
+	transition: transform .2s;
+	// Force Hardware Acceleration in WebKit
+	transform: translateZ(0);
+	will-change: transform;
+	backface-visibility: hidden;
+
+	.cs-sticky-menu--empty & { // hide menu
+		transform: translateY(150px);
+	}
+
+	@include breakpoint(lg) {
+		bottom: 40px;
+	}
+}
+
+.cs-sticky-menu__trigger { // button that triggers the menu content
+	z-index: 3;
+	height: 72px;
+	width: 72px;
+  overflow: visible;
+  background-color: var(--cd-color-3);
+
+	.cs-sticky-menu--open &::before {
+		opacity: 0;
+	}
+
+	.cs-sticky-menu--open &::after {
+		opacity: 1;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	&:hover + .cs-sticky-menu__content .cs-sticky-menu__layout {
+		box-shadow: 0 6px 40px rgba(#000, .3);
+	}
+
+	.cs-sticky-menu--open &:hover + .cs-sticky-menu__content .cs-sticky-menu__layout {
+		box-shadow: 0 4px 30px rgba(#000, .17);
+	}
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__count {
+  transition: transform .2s 0s;
+  transform: scale(0);
+}
+
+.cs-sticky-menu__content { // menu content
+	z-index: 2;
+	width: 90%;
+	max-width: 440px;
+	height: 400px;
+	max-height: 90%;
+	pointer-events: none;
+}
+
+.cs-sticky-menu__layout {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  overflow: hidden;
+  height: 72px;
+  width: 72px;
+  border-radius: var(--radius);
+  transition: height .4s .1s, width  .4s .1s, box-shadow .3s;
+  transition-timing-function: cubic-bezier(.67,.17,.32,.95);
+  background: var(--cd-color-3);
+  box-shadow: 0 4px 30px rgba(#000, .17);
+  pointer-events: auto;
+  // children alignment
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__layout {
+  height: 100%;
+  width: 100%;
+  transition-delay: 0s;
+}
+
+.cs-sticky-menu__header, .cs-sticky-menu__body {
+  opacity: 0;
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__header, 
+.cs-sticky-menu--open .cs-sticky-menu__body {
+  opacity: 1;
+}
+
+.cs-sticky-menu__header {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--radius) var(--radius) 0 0;
+  height: 40px;
+  line-height: 40px;
+  background-color: var(--cd-color-3);
+  transition: opacity .2s 0s;
+  border-bottom: 1px solid lightness(var(--cd-color-3), 0.9);
+  padding: var(--space-xs);
+  
+  h2 {
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    padding: 0;
+  }
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__header {
+  transition: opacity .2s .2s;
+}
+
+.cs-sticky-menu__body {
+  flex-grow: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity .2s;
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__body {
+  transition: opacity 0s;
+}
+
+.cs-sticky-menu__item {
+  position: relative;
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 0s .2s, transform 0s .2s;
+  display: flex;
+
+  &:not(:last-of-type) {
+    margin-bottom: 12px; // this value will be used in the cd-item-slide-out/cd-item-slide-in animations
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.cs-sticky-menu__footer {
+  position: absolute;
+  bottom:0px;
+  width: 100%;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: 0 -2px 20px rgba(0,0,0,.15);
+  background: var(--cd-color-3);
+  z-index: 10;
+} 
+
+.cs-sticky-menu__bottom_items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 72px;
+  line-height: 72px;
+  margin-right: 72px;
+  color: alpha(var(--cd-color-3), 0);
+  @include fontSmooth;
+  text-align: center;
+  font-weight: 600;
+  transition: all .2s 0s;
+
+  em {
+    position: relative;
+    display: inline-block;
+    transform: translateX(40px);
+    transition: transform 0s .2s;
+  }
+
+  .icon { // arrow icon
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    opacity: 0;
+    transition: opacity .2s;
+    color: currentColor;
+  }
+}
+
+.cs-sticky-menu--open .cs-sticky-menu__bottom_items {
+  color: var(--cd-color-3);
+  transition: color .2s .3s;
+
+  em {
+    transform: translateX(0);
+    transition: transform .2s .3s, padding .2s 0s;
+  }
+
+  &:hover em {
+    padding-right: 30px;
+  }
+
+  &:hover .icon {
+    opacity: 1;
+  }
+
+  .cs-sticky-menu__bottom_btn {
+    opacity: 1;
+    transition: opacity .2s .3s, transform .5s ease;
+  }
+}
+
+.cs-sticky-menu__bottom_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cd-color-2);
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  line-height: 50px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all .2s 0;
+
+  &:hover {
+    background-color: var(--cd-color-2);
+    transform: scale(1.2);
+  }
+}
+
+.cs-sticky-submenu {
+  position: relative;
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-md);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  z-index: var(--zindex-fixed-element);
+
+  pointer-events: none;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  transform: translateY(10px);
+  transform-origin: center top;
+  transition: opacity var(--sticky-menu-transition-duration), visibility 0s var(--sticky-menu-transition-duration), transform var(--sticky-menu-transition-duration) var(--ease-out);
+
+  // used in JS to detect when the drop menu needs to switch from the mobile layout to the desktop one
+  &::before {
+    display: none;
+    content: 'mobile';
+  }
+}
+
+.cs-sticky-submenu--is-visible {
+  pointer-events: auto;
+
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+  transition: opacity var(--sticky-menu-transition-duration), transform var(--sticky-menu-transition-duration) var(--ease-out);
+}
+
+.cs-sticky-submenu__inner {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  flex-shrink: 0;
+  padding-bottom: 90px;
+}
+
+.cs-sticky-submenu__list .cs-sticky-submenu__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  // hide sub menu
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.cs-sticky-submenu__list {
+  transition: var(--sticky-menu-transition-duration) var(--ease-out);
+
+  &.cs-sticky-submenu__list--in, &.cs-sticky-submenu__list--out {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0%);
+  }
+
+  &.cs-sticky-submenu__list--out {
+    > li > .cs-sticky-submenu__search,
+    > li > .cs-sticky-submenu__btn,
+    > li > .cs-sticky-submenu__link {
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+  }
+}
+
+// menu items
+.cs-sticky-submenu__search-input,
+.cs-sticky-submenu__btn,
+.cs-sticky-submenu__link {
+  height: var(--sticky-menu-item-height);
+  line-height: var(--sticky-menu-item-height);
+  width: 100%;
+  padding: 0 var(--space-xs);
+}
+
+.cs-sticky-submenu__search,
+.cs-sticky-submenu__search-input,
+.cs-sticky-submenu__btn,
+.cs-sticky-submenu__link {
+  transition: background .2s, color .2s, transform var(--sticky-menu-transition-duration) var(--ease-out), opacity var(--sticky-menu-transition-duration), visibility var(--sticky-menu-transition-duration);
+}
+
+// search
+.cs-sticky-submenu__search {
+  position: relative;
+}
+
+.cs-sticky-submenu__search-input {
+  padding-left: calc(var(--space-xs) + 1em + var(--space-xxxs)); // 1em = icon size
+
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+  }
+
+  &::-ms-clear,
+  &::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0; 
+  }
+  
+  &:focus {
+    outline: none;
+  }
+
+  &:focus + .cs-sticky-submenu__search-icon {
+    color: var(--color-primary);
+  }
+}
+
+.cs-sticky-submenu__search-icon {
+  position: absolute;
+  left: var(--space-xs);
+  top: calc(50% - 0.5em);
+  pointer-events: none;
+  transition: .2s;
+}
+
+.cs-sticky-submenu--searching .cs-sticky-submenu__search-item ~ * {
+  display: none; // hide menu items during search
+}
+
+// sub menu trigger + link
+.cs-sticky-submenu__btn,
+.cs-sticky-submenu__link {
+  cursor: pointer;
+  min-width: 0;
+
+  > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:focus {
+    outline: none;
+    color: var(--color-primary);
+  }
+
+  &:hover {
+    background-color: alpha(var(--color-contrast-higher), 0.05);
+  }
+
+  &:active {
+    background-color: alpha(var(--color-contrast-higher), 0.1);
+  }
+}
+
+// sub menu trigger
+.cs-sticky-submenu__btn {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// link
+.cs-sticky-submenu__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+// autocomplete search list
+.cs-sticky-submenu:not(.cs-sticky-submenu--searching) .cs-sticky-submenu__search-list {
+  display: none;
+}
+
+.cs-sticky-submenu__search-list {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@include breakpoint(sm) {
+  .cs-sticky-submenu {
+
+    &::before {
+      content: 'desktop';
+    }
+  }
+
+  .cs-sticky-submenu__inner {
+    width: 100%;
+  }
+}

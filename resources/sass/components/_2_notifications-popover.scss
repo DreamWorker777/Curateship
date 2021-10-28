@@ -1,0 +1,64 @@
+/* -------------------------------- 
+
+File#: _2_notifications-popover
+Title: Notifications Popover
+Descr: A popover containing a list of notification items
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.notif-popover {
+    --popover-width: 280px;;
+  
+    .notif {
+      --notif-figure-size: 40px;
+    }
+  }
+
+  @include breakpoint(md) {
+    .notif-popover {
+      --popover-width: 360px;
+    }
+  }
+  
+  .notif-popover-control {
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    display: inline-flex;
+    transition: .3s;
+    color: var(--color-contrast-low); // icon color;
+  
+    .icon {
+      margin: auto;
+      font-size: 20px; // icon size
+      display: block;
+    }
+  
+    &:active {
+      transform: translateY(2px);
+    }
+  
+    &:hover {
+      cursor: pointer;
+      color: var(--color-primary); // icon color
+      background-color: lightness(var(--color-contrast-higher), 0.95);
+    }
+  
+    &.popover-control--active { // popover is visible
+      background-color: alpha(var(--color-primary), 0.2);
+      color: var(--color-primary); // icon color
+    } 
+  }
+
+  @media only screen and (max-width: 600px) {
+    .notif-popover {
+      --popover-width: 90%;
+      left: 5% !important;
+      align-self: center;
+    
+      .notif {
+        --notif-figure-size: 40px;
+      }
+    }
+  }

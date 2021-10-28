@@ -1,0 +1,57 @@
+fieldset {
+    border: 0;
+  }
+  
+  legend {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+  }
+  
+  .control {
+    display: inline-flex;
+    position: relative;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 99em;
+    
+    input {
+      position: absolute;
+      opacity: 0;
+      z-index: -1;
+    }
+    
+    svg {
+      border-radius: 50%;
+      box-shadow: 3px 3px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  .control__content {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    font-size: 24px;
+    line-height: 32px;
+    color: rgba(0, 0, 0, 0.54);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 99em;
+    
+    .control:hover & {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .control input:focus ~ .control__content {
+    box-shadow: 0 0 0 0.25rem rgba(12, 242, 143, .2);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .control input:checked ~ .control__content {
+    background-color: rgba(12, 242, 143, .2);
+  }

@@ -1,0 +1,66 @@
+/* -------------------------------- 
+
+File#: _1_card-v2
+Title: Card v2
+Descr: Container of information used as teasers for further content, often displayed in a gallery of related items
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.card-v2 {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+
+.card-v2__caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: var(--space-md) var(--space-sm) var(--space-xxs);
+  background: linear-gradient(alpha(var(--color-black), 0), var(--color-black));
+
+  color: var(--color-white);
+  text-shadow: 0 1px 1px rgba(#000, 0.35);
+  // text-align: center;
+  @include fontSmooth;
+}
+
+.card-v2__title {
+  font-size: var(--text-sm);
+
+  @include breakpoint(md) {
+    font-size: 0.8em;
+  }
+}
+
+.card-v2__label {
+  margin-top: var(--space-xxxs);
+  font-size: var(--text-sm);
+  opacity: 0.75;
+}
+
+// --blurred-img
+.card-v2--blur-fx {
+  .card-v2__caption {
+    padding: var(--space-sm);
+    background: alpha(var(--color-black), 0.7);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    backdrop-filter: blur(10px);
+  }
+}
+
+// --link
+a.card-v2 {
+  display: block;
+  text-decoration: none;
+  transition: box-shadow .2s;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}

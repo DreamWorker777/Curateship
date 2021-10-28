@@ -1,0 +1,45 @@
+#hwpwrap {
+    .menu {
+        width:100%;
+        position: static;
+        box-shadow: none;
+        visibility: visible;
+        opacity: 1;
+
+        .menu-item-bar {
+            .menu-item-handle {
+                width: 402px;
+            }
+        }
+
+        .description-thin {
+            width: 185px;
+        }
+
+        input {
+            padding: 3px 5px;
+
+            &.code {padding-top:3px;}
+        }
+
+        .menu-item-settings {
+            p {margin-bottom:10px;}
+        }
+    }
+
+    .nav-menus-php {
+        a.item-edit {
+            &:before {
+                line-height:1.7;
+            }
+        }
+    }
+}
+
+.mega-nav__items {position:relative;}
+
+.js {
+    .dropdown__menu {
+      top: calc(100%);
+    }
+}  

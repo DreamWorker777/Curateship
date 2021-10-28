@@ -1,0 +1,23 @@
+.hidden{ display: none; }
+
+.alert-cover-photo{
+	width: 104%;
+	padding: 10px;
+    background: #daeffb;
+    border-radius: 5px;
+}
+
+.btn-cover-photo{
+	background: #fff;
+	color: #000;
+	border: none;
+	border-radius: 5px;
+	padding: 5px 10px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+#btnCancel{
+	background: #f31414;
+	color: #fff;
+}

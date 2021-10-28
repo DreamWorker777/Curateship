@@ -1,0 +1,16 @@
+/* --------------------------------
+
+File#: _1_newsletter-card
+Title: Newsletter Card
+Descr: A card containing a newsletter form
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.newsletter-card__feedback {
+    display: none;
+}
+
+.newsletter-card__feedback--is-visible {
+    display: block;
+}

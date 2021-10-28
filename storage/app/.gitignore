@@ -1,0 +1,4 @@
+*
+!public/
+!public/users-images/cover/
+!.gitignore

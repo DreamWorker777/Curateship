@@ -1,0 +1,19 @@
+.profile__cover {
+    height: 300px;
+    background-color: var(--color-contrast-low);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  
+    @include breakpoint(md) {
+      height: 400px;
+    }
+
+    @media (max-width: 80rem) {
+    margin-left: -20px;
+    margin-right: -20px;
+        }
+  }
+
+  // Pull profile picture upper so it will cross with user banner
+#userProfile .author__img-wrapper{ margin-top: -70px;}
