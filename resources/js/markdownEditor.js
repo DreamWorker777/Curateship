@@ -7,7 +7,14 @@ const editor = new Editor({
   height: '400px',
   initialEditType: 'markdown',
   placeholder: 'Write something cool!',
-})
+});
+
+const codeEditor = new Editor({
+  el: document.querySelector('#codeEditor'),
+  height: '400px',
+  initialEditType: 'wysiwyg',
+  placeholder: 'Write something cool!',
+});
 
 window.currentIndex = -1;
 
@@ -16,6 +23,10 @@ window.selectComponent = (index) => {
 
   const content = componentInfo[index]['content'];
   editor.setHTML(content);
+
+  const content_php = componentInfo[index]['content_php'];
+  codeEditor.insertText(content_php);
+
   $('.modal__close-btn').trigger('click');
 }
 
@@ -25,8 +36,9 @@ window.saveComponentContent = () => {
 
   const id = componentInfo[ currentIndex ].id;
   const content = editor.getHTML();
+  const content_php = codeEditor.getMarkdown();
 
-  $.post('/component/saveContent', {id, content}, (res) => {
+  $.post('/component/saveContent', {id, content, content_php}, (res) => {
     const data = JSON.parse(res);
 
     if( data.success ) {

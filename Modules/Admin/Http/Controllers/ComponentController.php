@@ -24,12 +24,16 @@ class ComponentController extends Controller {
 
         foreach( $components as $index => $component ) {
             $exists = Storage::disk('component')->exists($component['category'].'/'.$component['name'].'.blade.php');
-            if( $exists )
+            if( $exists ) {
                 $content = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.blade.php');
-            else
+                $content_php = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.php');
+            } else {
                 $content = '';
+                $content_php = '';
+            }
             
             $components[$index]['content'] = $content;
+            $components[$index]['content_php'] = $content_php;
         }
 
         return view('admin::editor.component.index', compact('components'));
@@ -46,7 +50,6 @@ class ComponentController extends Controller {
         if( !$exists ) {
             Storage::disk('component')->put($category.'/'.$name.'.blade.php', '');
             Storage::disk('component')->put($category.'/'.$name.'.php', '');
-
             
             $model = new Component;
             $model->name = $name;
@@ -66,6 +69,7 @@ class ComponentController extends Controller {
     public function saveContent(Request $request) {
         $id = $request->id;
         $content = $request->content;
+        $content_php = $request->content_php;
 
         $component = Component::find($id);
         $category = $component->category;
@@ -76,6 +80,7 @@ class ComponentController extends Controller {
         $exists = Storage::disk('component')->exists($category.'/'.$name.'.blade.php');
         if( $exists ) {
             Storage::disk('component')->put($category.'/'.$name.'.blade.php', $content);
+            Storage::disk('component')->put($category.'/'.$name.'.php', $content_php);
 
             $data['success'] = true;
             $data['message'] = 'Successfully saved the component!';

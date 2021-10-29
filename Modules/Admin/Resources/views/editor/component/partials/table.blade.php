@@ -21,7 +21,11 @@
     <section id="tab1Panel2" class="tabs-v3__panel js-tabs__panel">
       <div class="text-component">
         <h1>PHP Codes</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, nobis! Vitae quis minus accusantium qui atque? Officiis sunt exercitationem natus, minus sapiente debitis eum animi porro. Ut cupiditate amet expedita!</p>
+        
+        <!-- Markdown Editor -->
+        <div class="flex flex-col space-y-2">
+          <div id="codeEditor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm markdownEditor__editor"><div>
+        </div>
       </div>
     </section>
 

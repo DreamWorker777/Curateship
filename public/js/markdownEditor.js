@@ -40144,12 +40144,20 @@ var editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_0__["default"]({
   initialEditType: 'markdown',
   placeholder: 'Write something cool!'
 });
+var codeEditor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  el: document.querySelector('#codeEditor'),
+  height: '400px',
+  initialEditType: 'wysiwyg',
+  placeholder: 'Write something cool!'
+});
 window.currentIndex = -1;
 
 window.selectComponent = function (index) {
   window.currentIndex = index;
   var content = componentInfo[index]['content'];
   editor.setHTML(content);
+  var content_php = componentInfo[index]['content_php'];
+  codeEditor.insertText(content_php);
   $('.modal__close-btn').trigger('click');
 };
 
@@ -40157,9 +40165,11 @@ window.saveComponentContent = function () {
   if (currentIndex == -1) return;
   var id = componentInfo[currentIndex].id;
   var content = editor.getHTML();
+  var content_php = codeEditor.getMarkdown();
   $.post('/component/saveContent', {
     id: id,
-    content: content
+    content: content,
+    content_php: content_php
   }, function (res) {
     var data = JSON.parse(res);
 
